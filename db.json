@@ -1,0 +1,26 @@
+{
+  "blogs": [
+    {
+      "title": "First  Edited Blog Post",
+      "content": "This is the content of the first blog post. edited",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "title": "Second Blog Post",
+      "content": "This is the content of the second blog post."
+    }
+  ],
+  "authors": [
+    {
+      "id": "1",
+      "name": "Author One",
+      "bio": "Bio of the first author."
+    },
+    {
+      "id": "2",
+      "name": "Author Two",
+      "bio": "Bio of the second author."
+    }
+  ]
+}
