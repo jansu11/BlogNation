@@ -1,12 +1,10 @@
 
 import React from 'react'
-
-function Header() {
+import Logo from './Logo';
+const Header = () => {
     return(
-        <div>
-            <p>This is Header</p>
-        </div>
+        <Logo/>
     )
-}
 
+}
 export default Header;

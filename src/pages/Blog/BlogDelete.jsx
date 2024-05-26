@@ -1,14 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
+import { deleteBlog } from '../../services/apiSevice';
 
 function BlogDelete() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
+
     try {
-      await axios.delete(`/blogs/${id}`);
+      await deleteBlog(id)
       navigate('/');
     } catch (error) {
       console.error('Error deleting blog:', error);

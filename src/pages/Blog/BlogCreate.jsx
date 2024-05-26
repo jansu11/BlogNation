@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { createBlog } from '../../services/apiSevice';
 
 function BlogCreate() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/blogs', { title, content });
-      // Redirect to the blog list page or show success message
-      setSuccessMessage('Blog Created successfully ');
-      setTimeout(() => {
-        
-    setSuccessMessage('');
-      navigate('/')
-      }, 2000);
+
+
+      const newBlog = {title,content}
+      const response = await createBlog(newBlog)
+      console.log(response)
+
+
     } catch (error) {
       console.error('Error creating blog:', error);
     }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
+import { fetchBlogById, updateBlog } from '../../services/apiSevice';
+
 
 function BlogEdit() {
   const { id } = useParams();
@@ -9,19 +10,28 @@ function BlogEdit() {
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    axios.get(`/blogs/${id}`)
-      .then(response => {
-        setTitle(response.data.title);
-        setContent(response.data.content);
-      })
-      .catch(error => console.error('Error fetching blog details:', error));
+
+     const getBlog = async () => {
+      try {
+        const blog = await fetchBlogById(id);
+        setTitle(blog.title);
+        setContent(blog.content);
+      } catch (error) {
+        console.error('Error fetching blog:', error);
+        setError('Failed to load blog');
+      }
+    };
+
+    getBlog();
+
   }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/blogs/${id}`, { title, content });
-      navigate('/');
+      const updatedBlog = {title,content};
+      await updateBlog(id,updateBlog);
+      navigate(`/blogs/${id}`);
     } catch (error) {
       console.error('Error updating blog:', error);
     }

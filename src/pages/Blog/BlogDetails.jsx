@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from '../../api/axios';
+import { fetchBlogById } from '../../services/apiSevice';
 
 function BlogDetails() {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    axios.get(`/blogs/${id}`)
-      .then(response => setBlog(response.data))
-      .catch(error => console.error('Error fetching blog details:', error));
+
+    const getBlog = async() => {
+      try{
+
+      const data = await fetchBlogById(id);
+      setBlog(data)
+
+      }catch(error){
+        console.error('Error fetching blog:', error);
+        setError('Failed to load blog');
+      }
+    }
+
+    getBlog();
+
   }, [id]);
 
   if (!blog) return <div>Loading...</div>;
