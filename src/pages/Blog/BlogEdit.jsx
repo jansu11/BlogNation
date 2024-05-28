@@ -13,9 +13,9 @@ function BlogEdit() {
 
      const getBlog = async () => {
       try {
-        const blog = await fetchBlogById(id);
-        setTitle(blog.title);
-        setContent(blog.content);
+        const response = await fetchBlogById(id);
+        setTitle(response.blog.title);
+        setContent(response.blog.content);
       } catch (error) {
         console.error('Error fetching blog:', error);
         setError('Failed to load blog');
@@ -30,7 +30,7 @@ function BlogEdit() {
     e.preventDefault();
     try {
       const updatedBlog = {title,content};
-      await updateBlog(id,updateBlog);
+      await updateBlog(id,updatedBlog);
       navigate(`/blogs/${id}`);
     } catch (error) {
       console.error('Error updating blog:', error);

@@ -12,7 +12,8 @@ function BlogDetails() {
       try{
 
       const data = await fetchBlogById(id);
-      setBlog(data)
+      console.log(data.blog)
+      setBlog(data.blog)
 
       }catch(error){
         console.error('Error fetching blog:', error);

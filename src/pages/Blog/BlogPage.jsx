@@ -10,6 +10,7 @@ function BlogPage() {
       const getBlogs = async () => {
         try{
           const data = await fetchBlogs();
+          console.log(data)
           setBlogs(data);
 
         } catch(error)
@@ -27,8 +28,8 @@ function BlogPage() {
       <Link to="/blogs/create" className="text-blue-500">Create New Blog</Link>
       <ul>
         {blogs.map(blog => (
-          <li key={blog.id}>
-            <Link to={`/blogs/${blog.id}`} className="text-blue-500">
+          <li key={blog._id}>
+            <Link to={`/blogs/${blog._id}`} className="text-blue-500">
               {blog.title}
             </Link>
           </li>

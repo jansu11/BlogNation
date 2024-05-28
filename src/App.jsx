@@ -13,25 +13,32 @@ import SignupForm from './pages/Author/SignupForm';
 import WelcomePage from './pages/WelcomePage';
 import LoginForm from './pages/Author/LoginForm';
 import AuthorLandingPage from './pages/Author/AuthorLandingPage';
+import AuthorDashboard from './pages/Author/AuthorDashboard';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <div className="App">
       <Header />
       <main className="p-4">
-        <Routes>
-          <Route path='/' element={<WelcomePage/>} />
-          <Route path="/blogs" element={<BlogPage />} />
-          <Route path="/blogs/:id" element={<BlogDetails />} />
-          <Route path="/blogs/create" element={<BlogCreate />} />
-          <Route path="/blogs/edit/:id" element={<BlogEdit />} />
-          <Route path="/blogs/delete/:id" element={<BlogDelete />} />
-          <Route path="/author/" element={<AuthorLandingPage/>} />
-          <Route path="/author/signup" element={<SignupForm/>} />
-          <Route path="/author/login" element={<LoginForm/>} />
+        <AuthProvider>
+          <Routes>
+            <Route path='/' element={<WelcomePage/>} />
+            <Route path="/blogs" element={<BlogPage />} />
+            <Route path="/blogs/:id" element={<BlogDetails />} />
+            <Route path="/blogs/create" element={
+              <BlogCreate />}/>
 
+            <Route path="/blogs/edit/:id" element={<BlogEdit />} />
+            <Route path="/blogs/delete/:id" element={<BlogDelete/>} />
+            <Route path="/author/" element={<AuthorLandingPage/>} />
+            <Route path="/author/signup" element={<SignupForm/>} />
+            <Route path="/author/login" element={<LoginForm/>} />
+            <Route path='/author/dashboard' element={<AuthorDashboard/>} />
 
-        </Routes>
+          </Routes>
+
+        </AuthProvider>
       </main>
       <Footer />
     </div>

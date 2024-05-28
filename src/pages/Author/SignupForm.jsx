@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import { signup } from '../../services/authService';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 const SignupForm = () => {
+  const {signup} = useContext(AuthContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate()
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(name,email,password)
     try {
-      const data = await signup(name,email,password)
-      console.log('Signup successful:', data);
-      navigate('/author/login',{state : {message : data.message}})
+      signup(name,email,password)
+      console.log('Signup successful:');
+      navigate('/author/dashboard');
       // Optionally, you can redirect to another page after successful signup
     } catch (error) {
       console.error('Error signing up:', error);
@@ -22,6 +25,7 @@ const SignupForm = () => {
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 shadow-md rounded-md">
       <h2 className="text-2xl mb-4">Sign Up</h2>
+      {error && <div className="mb-4 text-red-500">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="name" className="block mb-1">Name:</label>
