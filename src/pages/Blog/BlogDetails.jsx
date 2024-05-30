@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchBlogById } from '../../services/apiSevice';
+import { AuthContext } from '../../context/AuthContext';
+import BlogTitle from '../../components/Blog/BlogTitle';
+import BlogContent from '../../components/Blog/BlogContent';
+import BlogStatistics from '../../components/Blog/BlogStatistics';
 
 function BlogDetails() {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
-
+  const {fetchBlogById} = useContext(AuthContext)
   useEffect(() => {
 
     const getBlog = async() => {
@@ -29,8 +32,15 @@ function BlogDetails() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">{blog.title}</h1>
-      <p>{blog.content}</p>
+      <BlogTitle title={blog.title} author={blog.author}
+      createdAt={blog.createdAt}/>
+
+      <BlogContent content={blog.content}/>
+      <BlogStatistics likes={blog.likes_count} views={blog.view_count} />
+
+
+
+
 
     <Link to={`/blogs/edit/${id}`} className="text-blue-500"><button
      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 "

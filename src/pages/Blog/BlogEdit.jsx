@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchBlogById, updateBlog } from '../../services/apiSevice';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 
 function BlogEdit() {
+
+  const {auth,loading,fetchBlogById,updateBlog} = useContext(AuthContext)
   const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
+
+
 
   useEffect(() => {
 
@@ -36,6 +41,12 @@ function BlogEdit() {
       console.error('Error updating blog:', error);
     }
   };
+
+  if(loading) return <div>loading...</div>
+
+  if (!auth || !auth.token){
+    return <Navigate to="/author/login" replace />;
+  }
 
   return (
     <div>

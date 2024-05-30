@@ -1,11 +1,13 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { deleteBlog } from '../../services/apiSevice';
+import React ,{useContext, useEffect, useReducer} from 'react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function BlogDelete() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const  {auth,loading, deleteBlog} =  useContext(AuthContext)
 
+  
   const handleDelete = async () => {
 
     try {
@@ -15,9 +17,13 @@ function BlogDelete() {
       console.error('Error deleting blog:', error);
     }
   };
-
   const handleCancel = () => {
     navigate(`/blogs/${id}`);
+  }
+  if (loading) return <div>Loading...</div>
+
+  if (!auth || !auth.token){
+    return <Navigate to="/author/login" replace />;
   }
 
   return (

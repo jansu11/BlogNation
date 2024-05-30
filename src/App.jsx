@@ -21,7 +21,6 @@ function App() {
     <div className="App">
       <Header />
       <main className="p-4">
-        <AuthProvider>
           <Routes>
             <Route path='/' element={<WelcomePage/>} />
             <Route path="/blogs" element={<BlogPage />} />
@@ -38,7 +37,6 @@ function App() {
 
           </Routes>
 
-        </AuthProvider>
       </main>
       <Footer />
     </div>
