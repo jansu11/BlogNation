@@ -1,5 +1,5 @@
 import React, { useContext, useEffect , useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useAsyncError} from 'react-router-dom'
 import BlogCard from '../../components/Blog/BlogCard';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -14,6 +14,7 @@ function BlogPage() {
           const data = await fetchBlogs();
           console.log(data)
           setBlogs(data);
+          
 
         } catch(error)
         {
@@ -31,10 +32,12 @@ function BlogPage() {
           key={blog._id}
           id={blog._id}
           title={blog.title} 
-          author={blog.author} 
+          author={blog.author.nickName} 
           views={blog.view_count} 
           likes={blog.likes_count} 
           snippet={blog.snippet} 
+          comments={blog.comments.length}
+          createdAt={blog.createdAt}
         />
       ))}
     </div>

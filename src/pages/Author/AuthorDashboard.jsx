@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation ,Link} from 'react-router-dom';
 import AuthorProfileForm from '../../components/AuthorProfileForm.jsx';
 import Modal from '../../components/Modal.jsx';
 import instance from '../../services/api.js';
@@ -35,8 +35,9 @@ const AuthorDashboard = () => {
   const handleCreateBlog = () => navigate('/blogs/create');
   const handleLogout = () => {
     logout();
-    navigate('/author/login', { state: { message: 'You have logged out' } });
+    navigate('/')
   };
+
 
   if (!auth?.user) {
     return <div>Loading...</div>;
@@ -63,6 +64,16 @@ const AuthorDashboard = () => {
           <AuthorProfileForm />
         </Modal>
       )}
+      <div>
+      <Link to={`/blogs`}>
+      <button
+        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
+      >
+        View All Blogs
+      </button>
+      </Link>
+      </div>
+
       <button
         onClick={handleLogout}
         className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"

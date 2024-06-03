@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
     const user = jwtDecode(token);
     localStorage.setItem('authToken', token);
     setAuth({ token, user });
+    console.log(user)
 
     }catch(err){
 
@@ -95,6 +96,7 @@ const fetchBlogById = async (id) => {
 
     );
     console.log(response)
+    console.log(auth)
     return response.data;
   } catch (error) {
     throw error;
@@ -127,13 +129,83 @@ const deleteBlog = async (id) => {
   }
 };
 
+const createComment = async(commentData) => {
+  try{
 
+    const email = commentData.email;
+    const name = commentData.author;
+    const comment = commentData.content;
+    const blogId = commentData.blogId; 
+
+    const response = await axiosInstance.post(`/api/comment/`,
+    {email,name,comment,blogId},
+    {
+      headers:{Authorization : `Bearer ${auth.token}`}
+    }
+    )
+
+    return response.data;
+
+
+  }catch (error){
+    throw error;
+
+  }
+  
+}
+
+const fetchCommentsById = async (id) => 
+  {
+    try {
+    const response = await axiosInstance.get(`/api/comment/${id}`,
+
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+  }
+
+const getLikes = async(id) => {
+  try {
+    const response = await axiosInstance.get(`/api/blog/likes/${id}`,
+     {headers: {Authorization: `Bearer ${auth.token}`}}
+    )
+    console.log(response)
+    return response
+  }catch(err){
+    console.log(err)
+  }
+
+}
+const like = async(id) => {
+  console.log(auth)
+  try {
+    const response = await axiosInstance.post(`/api/blog/likes/${id}`,
+    {id},
+     {headers: {Authorization: `Bearer ${auth.token}`}}
+
+    )
+    console.log(response)
+    return response
+  }catch(err){
+    console.log(err)
+  }
+
+}
 
 
   // Use useEffect to check for an existing token in localStorage when the component mounts
 
   return (
-    <AuthContext.Provider value={{ loading,auth, login, signup, logout,createBlog,fetchBlogById,updateBlog,deleteBlog ,fetchBlogs}}>
+    <AuthContext.Provider value=
+    {{ loading,auth, login, signup, logout,
+      createBlog,fetchBlogById,updateBlog,
+      deleteBlog ,fetchBlogs,createComment,
+      fetchCommentsById ,like,getLikes
+
+    }}>
       {children}
     </AuthContext.Provider>
   );

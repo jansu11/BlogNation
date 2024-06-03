@@ -4,11 +4,22 @@ import { AuthContext } from '../../context/AuthContext';
 import BlogTitle from '../../components/Blog/BlogTitle';
 import BlogContent from '../../components/Blog/BlogContent';
 import BlogStatistics from '../../components/Blog/BlogStatistics';
+import EditButton from '../../components/Buttons/EditButton';
+import DeleteButton from '../../components/Buttons/DeleteButton';
+import CommentForm from '../../components/Blog/CommentForm';
+import CommentList from '../../components/Blog/CommentList';
+import LikeButton from '../../components/Blog/LikeButton';
+
 
 function BlogDetails() {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
-  const {fetchBlogById} = useContext(AuthContext)
+  const [author,setAuthor] = useState({})
+  const [comments, setComments] = useState([])
+  const {auth,fetchBlogById } = useContext(AuthContext)
+  console.log(auth)
+
+
   useEffect(() => {
 
     const getBlog = async() => {
@@ -17,6 +28,8 @@ function BlogDetails() {
       const data = await fetchBlogById(id);
       console.log(data.blog)
       setBlog(data.blog)
+      setAuthor(data.author)
+      setComments(data.comments)
 
       }catch(error){
         console.error('Error fetching blog:', error);
@@ -28,28 +41,35 @@ function BlogDetails() {
 
   }, [id]);
 
-  if (!blog) return <div>Loading...</div>;
+  const handleCommentAdded = (comment) => {
+    setComments((prevComments) => [...prevComments, comment]);
+  };
 
+  if (!blog) return <div>Loading...</div>;
+  const isAuthor = auth?.user?.userId == blog.author;
   return (
     <div>
-      <BlogTitle title={blog.title} author={blog.author}
+      {isAuthor && (
+            <div className="flex space-x-4">
+              <Link to={`/blogs/edit/${id}`}>
+                <EditButton/>
+
+              </Link>
+              <Link to={`/blogs/delete/${id}`}>
+                <DeleteButton/>
+
+              </Link>
+
+
+            </div>
+      )}
+      <BlogTitle title={blog.title} author={author.nickName}
       createdAt={blog.createdAt}/>
 
       <BlogContent content={blog.content}/>
-      <BlogStatistics likes={blog.likes_count} views={blog.view_count} />
-
-
-
-
-
-    <Link to={`/blogs/edit/${id}`} className="text-blue-500"><button
-     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 "
-    >Edit Blog</button> </Link>
-
-
-    <Link to={`/blogs/delete/${id}`} className="text-red-500"><button
-     className="px-4 py-2 bg-red-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 "
-    >Delete Blog</button> </Link>
+      <LikeButton blogId={id}/>
+      <CommentForm auth={auth} blogId={id} onCommentAdded={handleCommentAdded}/>
+      <CommentList comments={comments}/>
     </div>
   );
 }
