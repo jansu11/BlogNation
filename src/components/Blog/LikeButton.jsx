@@ -1,70 +1,67 @@
-// components/LikeButton.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
-import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import BlogStatistics from './BlogStatistics';
 
 const LikeButton = ({ blogId }) => {
-  const {auth,like,getLikes,fetchBlogById} = useContext(AuthContext);
-  const [liked, setLiked] = useState(false)
-  const [likes_count, setLikes] = useState(0)
-  const [blog, setBlog] = useState([])
-  const [message, setMessage] = useState('')
-  const [error,setError] = useState('')
+  const { like, getLikes, fetchBlogById } = useContext(AuthContext);
+  const [liked, setLiked] = useState(false);
+  const [likes_count, setLikes] = useState(0);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-    useEffect(() => {
-        const fetchLikes = async () => {
-            try{
-                const response = await fetchBlogById(blogId)
-                setLikes(response.blog.likes_count)
-                setBlog(response.blog)
-                
-            }catch(err){
-                console.log(err)
-                
-            }
-        };
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const response = await fetchBlogById(blogId);
+        setLikes(response.blog.likes_count);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-        const fetchLikedUser = async() => {
-            try{
-                const response = await getLikes(blogId) ;
-                setLiked(response.data.userLiked)
+    const fetchLikedUser = async () => {
+      try {
+        const response = await getLikes(blogId);
+        setLiked(response.data.userLiked);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-            }catch(err){
-                console.log(err)
-            }
-        }
-        fetchLikes();
-        fetchLikedUser()
-        
-    }, [blogId])
-    
+    fetchLikes();
+    fetchLikedUser();
+  }, [blogId]);
 
   const handleLike = async () => {
     try {
-       const response = await like(blogId);
-       console.log(response)
-        setLiked(response.data.userLiked)
-        setLikes(response.data.likes_count)
-
-    } catch (error) {
-      console.error('Error liking the blog:', error);
+      const response = await like(blogId);
+      setLiked(response.data.userLiked);
+      setLikes(response.data.likes_count);
+      liked ? setMessage('You UnLiked the Post') : setMessage('You Liked the Post');
+      setError('');
+    } catch (err) {
+      console.error('Error liking the blog:', err);
+      setError('Please Login to Like');
+      setMessage('');
     }
   };
 
   return (
     <div>
-    <BlogStatistics likes={likes_count} views={blog.view_count}/>
-    <button
-      likes={likes_count}
-      onClick={handleLike}
-      className={`flex items-center space-x-2 ${liked ? 'text-blue-500' : 'text-gray-500'} hover:text-blue-500 transition duration-300`}
-    >
-      <FaThumbsUp />
-    </button>
+      <button
+        onClick={handleLike}
+        className={`flex items-center space-x-2 ${liked ? 'text-blue-500' : 'text-gray-500'} hover:text-blue-500 transition duration-300`}
+      >
+        <FaThumbsUp />
+        <span className='text-xl'>{likes_count}</span>
+      </button>
+      <div>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {message && <p className="text-green-500 text-sm">{message} </p>}
+        
 
 
+      </div>
     </div>
   );
 };

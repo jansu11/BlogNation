@@ -13,29 +13,32 @@ const Navbar = () => {
     navigate('/');
   };
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
-        <Logo/>
         <div>
-            <span className='bg-white'>Hello {auth?.user?.userId.name}</span>
+            <Logo/>
+            <div>
+            <span className='text-gray-700 text-lg font-bold'>Welcome!! {auth?.user?.userId.name}</span>
+
+        </div>
 
         </div>
         <div>
           {auth && auth.token ? (
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-2 text-red-500 hover:text-red-700 transition duration-300"
+              className="flex items-center  md:space-x-2  text-red-500 hover:text-red-700 font-bold transition duration-300"
             >
               <FiLogOut size={24} />
-              <span>Logout</span>
+              <span className='hidden md:flex '>Logout</span>
             </button>
           ) : (
             <Link
               to="/author/login"
-              className="flex items-center space-x-2 text-green-500 hover:text-green-700 transition duration-300"
+              className="flex items-center md:space-x-2 font-bold text-xl text-green-700 hover:text-green-400 transition duration-300"
             >
               <FiLogIn size={24} />
-              <span>Login</span>
+              <span className='hidden md:flex'>Login</span>
             </Link>
           )}
         </div>

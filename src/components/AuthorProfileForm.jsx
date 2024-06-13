@@ -1,46 +1,67 @@
 import React, { useContext, useEffect, useState } from 'react';
-import instance from '../services/api';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const AuthorProfileForm = () => {
+  const {auth,loading,createAuthorProfile }  = useContext(AuthContext)
   const [nickName, setAuthorNickname] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [token,setToken] = useState('') ;
+  const [error, setError] = useState('');
+  const navigate = useNavigate()
 
 
-  useEffect(() => 
-  {
 
-    const token = localStorage.getItem('authToken');
-    console.log(token)
-    if (token) {
-      setToken(token)
+  useEffect(() => {
+  if(!loading){
+
+    if(auth.token){
+      console.log(auth)
+      setEmail(auth.user.email)
+    }else{
+
+      navigate('/author/login');
+    }
+
+  }else{
+
+    console.log(auth.token)
+      //navigate('/author/login');
     }
 
 
-  },[])
+
+ },[auth,loading,navigate]) 
+  
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send data to the backend (replace with your endpoint)
-      const response = await instance.post('/author/',
-       { nickName, email },
-       {
-        headers:{'Authorization': `Bearer ${token}`}
-       }
-      );
+      await createAuthorProfile({nickName,email})
+
       setMessage('Profile created successfully!');
     } catch (error) {
       console.error('Error creating profile:', error);
-      setMessage('Failed to create profile. Please try again.');
+      setError('Failed to create profile. Please try again.');
     }
   };
 
+   if (loading) return <div>Loading ... </div>
+  if (!auth.token)
+    {
+      console.log(auth.token)
+    return <Navigate to="/author/login" replace />;
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white p-6 shadow-md rounded-md">
         <h2 className="text-2xl font-bold mb-4">Create Author Profile</h2>
         {message && <div className="mb-4 text-green-500">{message}</div>}
+
+        {error && <div className="mb-4 text-red-500">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="authorNickname" className="block mb-1">Author Nickname:</label>

@@ -1,5 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
+.btn-primary {
+ @apply  transition duration-300 
+ mt-4 px-4 py-2 text-sm sm:text-base md:text-lg lg:text-xl bg-blue-500 hover:bg-blue-700 text-white font-bold rounded 
+ ; 
+
+}
+
+.btn-secondary{
+ @apply  transition duration-300 
+ mt-4 px-4 py-2 text-sm sm:text-base md:text-lg lg:text-xl bg-green-500 hover:bg-green-700 text-white font-bold rounded 
+ ; 
+
+}
+
+/* styles.css */
+.blog-content{
+    margin-left: 4px;
+    padding-left: 4px;
+}
+
+/* src/styles.css */
+.blog-content h1 {
+  text-transform: uppercase;
+  text-align: start;
+  font-size: 2rem; /* Equivalent to text-2xl in Tailwind */
+  font-weight: bold; /* Equivalent to font-bold in Tailwind */
+  color: #1a202c; /* Custom color */
+  margin-top: 1rem; /* Custom margin */
+}
+.blog-content h2 {
+  text-transform: uppercase;
+  text-align: start;
+  font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind */
+  font-weight: bold; /* Equivalent to font-bold in Tailwind */
+  color: #1a202c; /* Custom color */
+  margin-top: 1rem; /* Custom margin */
+}
+.blog-content h3 {
+  text-transform: uppercase;
+  text-align: start;
+  font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind */
+  font-weight: bold; /* Equivalent to font-bold in Tailwind */
+  color: #1a202c; /* Custom color */
+  margin-top: 1rem; /* Custom margin */
+}
+
+.blog-content p {
+  text-align: start;
+  line-height: 2;
+  font-size: 1.25rem; /* Equivalent to text-base in Tailwind */
+  color: #111; /* Custom color */
+  margin-bottom: 1rem; /* Custom margin */
+}
+.blog-content ol{
+    text-align: left;
+    line-height: 2;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+}
+.blog-content h2{
+    font-size: 1.5rem;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.blog-content ul {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: left;
+  list-style-type: disc; /* Bullet points for list items */
+  margin-left: 2rem; /* Indent list items */
+}
+
+.blog-content a{
+  font-size: 1.25rem; /* Equivalent to text-base in Tailwind */
+  line-height: 2;
+  color: red; /* Custom color */
+  margin-bottom: 0.5rem; /* Custom margin */
+}

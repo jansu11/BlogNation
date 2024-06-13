@@ -1,10 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
 #root {
-  max-width: 1280px;
+  max-width: vw;
+  min-height: 100vh; 
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
+
+/* styles.css */
+h1 {
+  font-size: 30px; /* Equivalent to text-2xl in Tailwind */
+  font-weight: bold; /* Equivalent to font-bold in Tailwind */
+}
+.blog-paragraph {
+  margin: 4px;
+  padding-left: 10px;
+  font-size : 16px;
+  line-height: 26px;
+  text-align: start;
+  color: #111;
+  font-weight: 800;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {

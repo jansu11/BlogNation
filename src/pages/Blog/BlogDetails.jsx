@@ -16,8 +16,7 @@ function BlogDetails() {
   const [blog, setBlog] = useState(null);
   const [author,setAuthor] = useState({})
   const [comments, setComments] = useState([])
-  const {auth,fetchBlogById } = useContext(AuthContext)
-  console.log(auth)
+  const {auth,fetchBlogById,loading } = useContext(AuthContext)
 
 
   useEffect(() => {
@@ -46,9 +45,31 @@ function BlogDetails() {
   };
 
   if (!blog) return <div>Loading...</div>;
-  const isAuthor = auth?.user?.userId == blog.author;
+  const isAuthor = auth?.user?.userId?.id == blog.author;
+  console.log(isAuthor)
+  console.log(auth.token)
   return (
-    <div>
+    <div className=' flex justify-center items-center '>
+    <div className=' bg-gray-50 shadow-lg md:max-w-[70vw] m-1 p-6 flex flex-col justify-center items-center'> <BlogTitle snippet={blog.snippet} title={blog.title} author={author.nickName}
+      createdAt={blog.createdAt}
+      stats=
+      {
+      <BlogStatistics  views={blog.view_count } comments={comments.length}/>
+      
+      } likeBtn={ <LikeButton blogId={id}/>}
+      />
+       
+       <div className='md:h-80 overflow-hidden'>
+        <img src={blog.imageUrl}/>
+       </div>
+
+      <div className=' '>
+        <BlogContent content={blog.content}/>
+
+      </div>
+      <CommentForm  blogId={id} onCommentAdded={handleCommentAdded}/>
+      <CommentList comments={comments}/>
+
       {isAuthor && (
             <div className="flex space-x-4">
               <Link to={`/blogs/edit/${id}`}>
@@ -63,13 +84,8 @@ function BlogDetails() {
 
             </div>
       )}
-      <BlogTitle title={blog.title} author={author.nickName}
-      createdAt={blog.createdAt}/>
+    </div>
 
-      <BlogContent content={blog.content}/>
-      <LikeButton blogId={id}/>
-      <CommentForm auth={auth} blogId={id} onCommentAdded={handleCommentAdded}/>
-      <CommentList comments={comments}/>
     </div>
   );
 }

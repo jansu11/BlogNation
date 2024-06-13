@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { FaEye, FaEyeSlash, FaRegEyeSlash, FaUser } from 'react-icons/fa';
 
 const LoginForm = () => {
   const {login} = useContext(AuthContext);
@@ -35,9 +36,16 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+    <div className="h-full flex flex-col justify-center items-center bg-gray-100">
+      <h1 className='bold text-3xl p-4 uppercase font-bold'>
+        Welcome Back!
+      </h1>
+      <p className='text-xl font-bold'>
+        Enter your details
+      </p>
+
+
       <div className="max-w-md w-full bg-white p-6 shadow-md rounded-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
         {message && (
             <div className='mb-4 text-green-500'> 
             {message}
@@ -48,18 +56,30 @@ const LoginForm = () => {
         {error && <div className="mb-4 text-red-500">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block mb-1">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
-              required
-            />
+                  <div className='flex items-center  justify-center'>
+                     <FaUser className='mr-3'/>
+                     <label htmlFor="email" className="block mb-1">
+                      Email:
+                     </label>
+
+                  </div>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  required
+                />
+
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block mb-1">Password:</label>
+          <div className="mb-4 ">
+            <div className='flex items-center justify-center'>
+              <FaEyeSlash className='mr-4'/>
+              <label htmlFor="password" className="block mb-1">Password:</label>
+
+            </div>
+            
             <input
               type="password"
               id="password"

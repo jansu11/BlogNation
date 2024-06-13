@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axiosInstance from '../services/auth';
 import {jwtDecode} from 'jwt-decode';
-
+import { useNavigate} from 'react-router-dom';
+import axios from 'axios'
 // Create the context
 export const AuthContext = createContext();
 
@@ -9,13 +10,15 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   // Define the state to hold authentication data
   const [auth, setAuth] = useState({ token: null, user: null });
-
+  const [sessionExpired, setSessionExpired] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate()
 
     useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('authToken');
+      console.log(token)
       if (token) {
         try {
           const user = jwtDecode(token);
@@ -26,21 +29,24 @@ export const AuthProvider = ({ children }) => {
         }
       }
       setLoading(false);
+
     };
 
     initializeAuth();
+    
   }, []);
   
   // Define a function to handle login
+
+
   const login = async (email, password) => {
     try{
 
-    const response = await axiosInstance.post('/auth/login', { email, password });
-    const { token } = response.data;
+    const response = await axiosInstance.post('/auth/login', { email, password,'role':'author'});
+    const token = response.data.accessToken;
     const user = jwtDecode(token);
     localStorage.setItem('authToken', token);
-    setAuth({ token, user });
-    console.log(user)
+    setAuth({token, user });
 
     }catch(err){
 
@@ -53,8 +59,7 @@ export const AuthProvider = ({ children }) => {
 
   // Define a function to handle signup
   const signup = async (name, email, password) => {
-    console.log(name,email,password)
-    await axiosInstance.post('/auth/signup', { name , email, password });
+    await axiosInstance.post('/auth/signup', { name , email, password,'role':'author'});
     await login(email, password); // Automatically login after signup
   };
 
@@ -78,7 +83,6 @@ const fetchBlogs = async () => {
 
 const createBlog = async (blogData) => {
   try {
-    console.log(blogData)
     const response = await axiosInstance.post('/api/blog', blogData
     ,{
         headers: {Authorization : `Bearer ${auth.token}`} 
@@ -95,8 +99,6 @@ const fetchBlogById = async (id) => {
     const response = await axiosInstance.get(`/api/blog/${id}`,
 
     );
-    console.log(response)
-    console.log(auth)
     return response.data;
   } catch (error) {
     throw error;
@@ -104,6 +106,7 @@ const fetchBlogById = async (id) => {
 };
 
 const updateBlog = async (id, blogData) => {
+  console.log(blogData)
   try {
     const response = await axiosInstance.put(`/api/blog/${id}`, blogData
 
@@ -111,6 +114,7 @@ const updateBlog = async (id, blogData) => {
         headers: {Authorization : `Bearer ${auth.token}`} 
     }
   );
+    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -160,7 +164,6 @@ const fetchCommentsById = async (id) =>
     const response = await axiosInstance.get(`/api/comment/${id}`,
 
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -172,7 +175,6 @@ const getLikes = async(id) => {
     const response = await axiosInstance.get(`/api/blog/likes/${id}`,
      {headers: {Authorization: `Bearer ${auth.token}`}}
     )
-    console.log(response)
     return response
   }catch(err){
     console.log(err)
@@ -180,14 +182,25 @@ const getLikes = async(id) => {
 
 }
 const like = async(id) => {
-  console.log(auth)
   try {
     const response = await axiosInstance.post(`/api/blog/likes/${id}`,
     {id},
      {headers: {Authorization: `Bearer ${auth.token}`}}
 
     )
-    console.log(response)
+    return response
+  }catch(err){
+    console.log(err)
+  }
+
+}
+const createAuthorProfile = async(profile) => {
+  try {
+    const response = await axiosInstance.post(`/api/author/`,
+    profile,
+     {headers: {Authorization: `Bearer ${auth.token}`}}
+
+    )
     return response
   }catch(err){
     console.log(err)
@@ -196,6 +209,10 @@ const like = async(id) => {
 }
 
 
+if(loading)
+  {
+    return <div>Loading ... </div>
+  }
   // Use useEffect to check for an existing token in localStorage when the component mounts
 
   return (
@@ -203,7 +220,8 @@ const like = async(id) => {
     {{ loading,auth, login, signup, logout,
       createBlog,fetchBlogById,updateBlog,
       deleteBlog ,fetchBlogs,createComment,
-      fetchCommentsById ,like,getLikes
+      fetchCommentsById ,like,getLikes,
+      createAuthorProfile
 
     }}>
       {children}
