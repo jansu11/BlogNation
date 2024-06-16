@@ -15,26 +15,6 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate()
 
-    useEffect(() => {
-    const initializeAuth = async () => {
-      const token = localStorage.getItem('authToken');
-      console.log(token)
-      if (token) {
-        try {
-          const user = jwtDecode(token);
-          setAuth({ token, user });
-        } catch (error) {
-          console.error('Token decoding error', error);
-          localStorage.removeItem('authToken');
-        }
-      }
-      setLoading(false);
-
-    };
-
-    initializeAuth();
-    
-  }, []);
   
   // Define a function to handle login
 
@@ -56,6 +36,14 @@ export const AuthProvider = ({ children }) => {
   } 
 
   
+const refresh = async () => {
+  const response = await axiosInstance.post(`/auth/refresh`, {}, { withCredentials: true });
+  if (response.data.accessToken) {
+    localStorage.setItem('accessToken', response.data.accessToken);
+  }
+  return response.data;
+};
+
 
   // Define a function to handle signup
   const signup = async (name, email, password) => {
@@ -207,6 +195,26 @@ const createAuthorProfile = async(profile) => {
   }
 
 }
+    useEffect(() => {
+    const initializeAuth = async () => {
+      const token = localStorage.getItem('authToken');
+      console.log(token)
+      if (token) {
+        try {
+          const user = jwtDecode(token);
+          setAuth({ token, user });
+        } catch (error) {
+          console.error('Token decoding error', error);
+          localStorage.removeItem('authToken');
+        }
+      }
+      setLoading(false);
+
+    };
+
+    initializeAuth();
+    
+  }, []);
 
 
 if(loading)
@@ -221,7 +229,7 @@ if(loading)
       createBlog,fetchBlogById,updateBlog,
       deleteBlog ,fetchBlogs,createComment,
       fetchCommentsById ,like,getLikes,
-      createAuthorProfile
+      createAuthorProfile,refresh
 
     }}>
       {children}
