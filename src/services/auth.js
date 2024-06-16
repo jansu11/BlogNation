@@ -4,7 +4,8 @@ import { AuthContext } from '../context/AuthContext';
 
 
 const axiosInstance = axios.create({
-    baseURL: 'http://192.168.1.65:5050/',
+    baseURL: import.meta.env.VITE_APP_DEV_API_URL,
+    
     headers: {
         'Content-Type':'application/json',
     },
