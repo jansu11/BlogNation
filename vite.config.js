@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { viteStaticCopy } from 'vite-plugin-static-copy'; // Correct import
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   plugins: [
@@ -15,7 +15,6 @@ export default defineConfig({
       ]
     })
   ],
-  base: '/BlogNation/', // Ensure this matches your repository name
   build: {
     rollupOptions: {
       input: {
