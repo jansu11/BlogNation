@@ -38,7 +38,6 @@ function BlogEdit() {
 
   
   const handleSubmit = async (e) => {
-    console.log(title,content)
     e.preventDefault();
     try {
 

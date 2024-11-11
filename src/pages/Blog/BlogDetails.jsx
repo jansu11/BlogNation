@@ -25,7 +25,6 @@ function BlogDetails() {
       try{
 
       const data = await fetchBlogById(id);
-      console.log(data.blog)
       setBlog(data.blog)
       setAuthor(data.author)
       setComments(data.comments)
@@ -46,8 +45,6 @@ function BlogDetails() {
 
   if (!blog) return <div>Loading...</div>;
   const isAuthor = auth?.user?.userId?.id == blog.author;
-  console.log(isAuthor)
-  console.log(auth.token)
   return (
     <div className=' flex justify-center items-center '>
     <div className=' bg-gray-50 shadow-lg md:max-w-[70vw] m-1 p-6 flex flex-col justify-center items-center'> <BlogTitle snippet={blog.snippet} title={blog.title} author={author.nickName}

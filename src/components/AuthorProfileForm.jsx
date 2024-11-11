@@ -17,7 +17,6 @@ const AuthorProfileForm = () => {
   if(!loading){
 
     if(auth.token){
-      console.log(auth)
       setEmail(auth.user.email)
     }else{
 
@@ -26,7 +25,6 @@ const AuthorProfileForm = () => {
 
   }else{
 
-    console.log(auth.token)
       //navigate('/author/login');
     }
 
@@ -52,7 +50,6 @@ const AuthorProfileForm = () => {
    if (loading) return <div>Loading ... </div>
   if (!auth.token)
     {
-      console.log(auth.token)
     return <Navigate to="/author/login" replace />;
   }
   return (

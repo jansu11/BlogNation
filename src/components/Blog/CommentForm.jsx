@@ -4,7 +4,6 @@ import { AuthContext } from '../../context/AuthContext';
 
 const CommentForm = ({ blogId, onCommentAdded }) => {
   const { createComment,auth,loading } = useContext(AuthContext);
-  console.log(auth)
   const [content, setContent] = useState('');
 
 

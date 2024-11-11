@@ -23,6 +23,7 @@ function App() {
       <main className="flex-1 bg-gray-200 ">
           <Routes>
             <Route path='/' element={<WelcomePage/>} />
+            <Route path='/BlogNation' element={<WelcomePage/>} />
             <Route path="/blogs" element={<BlogPage />} />
             <Route path="/blogs/:id" element={<BlogDetails />} />
             <Route path="/blogs/create" element={

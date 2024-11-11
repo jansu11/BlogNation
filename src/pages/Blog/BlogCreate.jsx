@@ -20,7 +20,6 @@ function BlogCreate() {
   if(!loading){
 
     if(auth.token){
-      console.log(auth)
       setAuthor(auth.user.userId)
     }else{
 
@@ -29,7 +28,6 @@ function BlogCreate() {
 
   }else{
 
-    console.log(auth.token)
       //navigate('/author/login');
     }
 
@@ -57,7 +55,6 @@ function BlogCreate() {
   if (loading) return <div>Loading ... </div>
   if (!auth.token)
     {
-      console.log(auth.token)
     return <Navigate to="/author/login" replace />;
   }
 

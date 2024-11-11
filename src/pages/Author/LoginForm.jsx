@@ -25,7 +25,6 @@ const LoginForm = () => {
     try {
       await login(email,password)
       navigate('/author/dashboard');
-      console.log('Logged in:');
       // Optionally, you can redirect to another page after successful login
       // For example: window.location.href = '/dashboard';
       

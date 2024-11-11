@@ -11,10 +11,8 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name,email,password)
     try {
       signup(name,email,password)
-      console.log('Signup successful:');
       navigate('/author/dashboard');
       // Optionally, you can redirect to another page after successful signup
     } catch (error) {

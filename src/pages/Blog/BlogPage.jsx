@@ -18,7 +18,6 @@ function BlogPage() {
       const getBlogs = async () => {
         try{
           const data = await fetchBlogs();
-          console.log(data)
           setBlogs(data);
           
 

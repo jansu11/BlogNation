@@ -94,7 +94,6 @@ const fetchBlogById = async (id) => {
 };
 
 const updateBlog = async (id, blogData) => {
-  console.log(blogData)
   try {
     const response = await axiosInstance.put(`/api/blog/${id}`, blogData
 
@@ -102,7 +101,6 @@ const updateBlog = async (id, blogData) => {
         headers: {Authorization : `Bearer ${auth.token}`} 
     }
   );
-    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -165,7 +163,6 @@ const getLikes = async(id) => {
     )
     return response
   }catch(err){
-    console.log(err)
   }
 
 }
@@ -178,7 +175,6 @@ const like = async(id) => {
     )
     return response
   }catch(err){
-    console.log(err)
   }
 
 }
@@ -191,20 +187,17 @@ const createAuthorProfile = async(profile) => {
     )
     return response
   }catch(err){
-    console.log(err)
   }
 
 }
     useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('authToken');
-      console.log(token)
       if (token) {
         try {
           const user = jwtDecode(token);
           setAuth({ token, user });
         } catch (error) {
-          console.error('Token decoding error', error);
           localStorage.removeItem('authToken');
         }
       }
