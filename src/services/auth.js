@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from '../context/AuthContext';
-
+const apiUrl = import.meta.env.VITE_APP_PROD_API_URL || import.meta.env.VITE_APP_DEV_API_URL
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_APP_DEV_API_URL,
+    baseURL: apiUrl,
     
     headers: {
         'Content-Type':'application/json',
